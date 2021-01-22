@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="ValueObjects\NovaPasta\**" />
+    <EmbeddedResource Remove="ValueObjects\NovaPasta\**" />
+    <None Remove="ValueObjects\NovaPasta\**" />
+  </ItemGroup>
+
+</Project>

@@ -13,19 +13,21 @@ namespace Loja.Domain.Domain
         public DateTime DataNascimento { get; set; }
         public int Codigo { get; set; }
         public string Senha { get; set; }
+        public string Nome { get; set; }
         public string DataNascimentoFormatada { get => DataNascimento.ToShortDateString(); }
 
         public Cliente()
         {
         }
 
-        public Cliente(CPF cpf, DateTime dataNascimento, int codigo, string senha, int id) : base(id)
+        public Cliente(CPF cpf, DateTime dataNascimento, int codigo, string senha, string nome, int id) : base(id)
         {
             Cpf = cpf;
             DataNascimento = dataNascimento;
             Codigo = codigo;
             Senha = senha;
             ID = id;
+            Nome = nome;
         }
 
         public bool MaiorDeIdade()

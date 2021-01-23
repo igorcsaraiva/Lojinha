@@ -10,4 +10,8 @@
     <None Remove="ValueObjects\NovaPasta\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="9.4.0" />
+  </ItemGroup>
+
 </Project>

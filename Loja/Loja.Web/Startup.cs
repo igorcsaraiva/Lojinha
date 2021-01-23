@@ -1,4 +1,10 @@
+using AutoMapper;
+using Loja.Application.AutoMapper;
+using Loja.Application.Interfaces;
+using Loja.Application.Services;
+using Loja.Domain.Interfaces;
 using Loja.Infra.Context;
+using Loja.Infra.Repository;
 using Loja.Web.Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,6 +37,9 @@ namespace Loja.Web
             services.AddControllersWithViews();
             services.AddDatabaseConfiguration(Configuration);
             services.AddScoped<LojaContexto>();
+            services.AddScoped<IClienteAppSevicos, ClienteAppService>();
+            services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
+            services.AddAutoMapper(typeof(ClienteDomainParaClienteViewModel), typeof(ClienteViewModelParaClienteDomain));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

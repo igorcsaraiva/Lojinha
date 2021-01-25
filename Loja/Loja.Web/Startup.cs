@@ -3,6 +3,7 @@ using Loja.Application.AutoMapper;
 using Loja.Application.Interfaces;
 using Loja.Application.Services;
 using Loja.Domain.Interfaces;
+using Loja.Domain.Validations;
 using Loja.Infra.Context;
 using Loja.Infra.Repository;
 using Loja.Web.Configurations;

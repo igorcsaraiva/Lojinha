@@ -1,7 +1,7 @@
 ﻿using Loja.Domain.ValueObjects;
 using System.ComponentModel.DataAnnotations;
 
-namespace Loja.Application.Annotations
+namespace Loja.Domain.Validations.Annotations
 {
     public class ValidarCpf : ValidationAttribute
     {

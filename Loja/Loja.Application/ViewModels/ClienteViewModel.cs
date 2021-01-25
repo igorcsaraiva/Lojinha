@@ -1,20 +1,18 @@
-﻿using Loja.Application.Annotations;
+﻿using Loja.Domain.Validations.Annotations;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace Loja.Application.ViewModels
 {
     public class ClienteViewModel
     {
         public int ID { get; set; }
-        
+
         [Required(ErrorMessage = "O campo código é obrigatório")]
         [DisplayName("Código")]
         public int Codigo { get; set; }
-        
+
         [Required(ErrorMessage = "O campo data é obrigatório")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
         [DataType(DataType.Date, ErrorMessage = "Data em formato inválido")]
@@ -24,19 +22,19 @@ namespace Loja.Application.ViewModels
 
         [Required(ErrorMessage = "O campo cpf é obrigatório")]
         [ValidarCpf]
-        public string  CPF { get; set; }
+        public string CPF { get; set; }
 
         [Required(ErrorMessage = "O campo nome é obrigatório")]
         [MinLength(2)]
         [MaxLength(100)]
         [DisplayName("Nome")]
-        public string  Nome { get; set; }
+        public string Nome { get; set; }
 
         [Required(ErrorMessage = "O campo senha é obrigatório")]
         [MinLength(2)]
         [MaxLength(100)]
         [DisplayName("Senha")]
-        public string  Senha { get; set; }
+        public string Senha { get; set; }
 
     }
 }

@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Loja.Application.Annotations
+namespace Loja.Domain.Validations.Annotations
 {
     public class ValidarSeMaiorDeIdade : ValidationAttribute
     {

@@ -2,6 +2,7 @@
 using Loja.Application.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,9 +48,9 @@ namespace Loja.Web.Controllers
 
                     return RedirectToAction(nameof(Index));
                 }
-                catch (Exception e)
+                catch (DbUpdateException e)
                 {
-                    NotFound(e);
+                    return BadRequest(e.InnerException);
                 }
             }
             return View(clienteViewModel);

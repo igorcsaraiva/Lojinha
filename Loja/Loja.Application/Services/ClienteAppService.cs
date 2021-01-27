@@ -20,6 +20,12 @@ namespace Loja.Application.Services
             _clienteRepositorio = clienteRepositorio;
         }
 
+        public void Adicionar(ClienteViewModel clienteViewModel)
+        {
+            var cliente = _mapper.Map<Cliente>(clienteViewModel);
+            _clienteRepositorio.Adicionar(cliente);
+        }
+
         public void Atualizar(ClienteViewModel clienteViewModel)
         {
             var cliente = _mapper.Map<Cliente>(clienteViewModel);
@@ -36,15 +42,10 @@ namespace Loja.Application.Services
             return _mapper.Map<IEnumerable<ClienteViewModel>>(await _clienteRepositorio.BuscarTodos());
         }
 
-        public void Adicionar(ClienteViewModel clienteViewModel)
+        public void Remover(ClienteViewModel clienteViewModel)
         {
             var cliente = _mapper.Map<Cliente>(clienteViewModel);
-            _clienteRepositorio.Adicionar(cliente);
-        }
-
-        public void Remover(int id)
-        {
-            throw new NotImplementedException();
+            _clienteRepositorio.Remover(cliente);
         }
     }
 }

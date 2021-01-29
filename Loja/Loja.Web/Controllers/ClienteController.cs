@@ -44,7 +44,17 @@ namespace Loja.Web.Controllers
             {
                 try
                 {
-                    _clienteAppSevicos.Adicionar(clienteViewModel);
+                    var erros = _clienteAppSevicos.Adicionar(clienteViewModel);
+                    
+                    if(erros.Count() > 0)
+                    {
+                        foreach (var item in erros)
+                        {
+                            ModelState.AddModelError(item.Propriedade, item.MensagemErro);
+                        }
+
+                        return View(clienteViewModel);
+                    }
 
                     return RedirectToAction(nameof(Index));
                 }

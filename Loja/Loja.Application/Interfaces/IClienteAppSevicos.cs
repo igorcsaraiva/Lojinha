@@ -1,5 +1,5 @@
-﻿using FluentValidation.Results;
-using Loja.Application.ViewModels;
+﻿using Loja.Application.ViewModels;
+using Loja.Domain.Validations;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,8 +9,9 @@ namespace Loja.Application.Interfaces
     {
         Task<IEnumerable<ClienteViewModel>> BuscarTodos();
         Task<ClienteViewModel> BuscarPorId(int id);
-        void Adicionar(ClienteViewModel clienteViewModel);
+        IList<Erro> Adicionar(ClienteViewModel clienteViewModel);
         void Atualizar(ClienteViewModel clienteViewModel);
         void Remover(ClienteViewModel clienteViewModel);
+        bool CpfExiste(ClienteViewModel clienteViewModel);
     }
 }

@@ -123,7 +123,7 @@ namespace Loja.Domain.ValueObjects
 
         public bool Equals(CPF other)
         {
-            return cpf == other.cpf;
+            return this == other;
         }
 
         public override string ToString()

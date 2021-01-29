@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Loja.Infra.Context
 {
-    public class LojaContexto : DbContext
+    public sealed class LojaContexto : DbContext
     {
         public LojaContexto(DbContextOptions<LojaContexto> options) : base(options)
         {

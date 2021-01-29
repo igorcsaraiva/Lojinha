@@ -3,6 +3,7 @@ using Loja.Domain.Interfaces;
 using Loja.Infra.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Loja.Infra.Repository
@@ -35,6 +36,16 @@ namespace Loja.Infra.Repository
         public async Task<IEnumerable<Cliente>> BuscarTodos()
         {
             return await _lojaContexto.Clientes.ToListAsync();
+        }
+
+        public bool CodigoExiste(Cliente Obj)
+        {
+            return _lojaContexto.Clientes.Where(c => c.Codigo == Obj.Codigo).Count() > 0;
+        }
+
+        public bool CpfExiste(Cliente Obj)
+        {
+            return _lojaContexto.Clientes.Where(c => c.Cpf.Cpf == Obj.Cpf.Cpf).Count() > 0;
         }
 
         public void Remover(Cliente Obj)

@@ -3,9 +3,7 @@ using Loja.Application.Interfaces;
 using Loja.Application.ViewModels;
 using Loja.Domain.Domain;
 using Loja.Domain.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Loja.Application.Services

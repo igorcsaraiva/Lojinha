@@ -3,8 +3,9 @@ using Loja.Application.Interfaces;
 using Loja.Application.ViewModels;
 using Loja.Domain.Domain;
 using Loja.Domain.Interfaces;
-using System;
+using Loja.Domain.Validations;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Loja.Application.Services
@@ -13,17 +14,24 @@ namespace Loja.Application.Services
     {
         private readonly IMapper _mapper;
         private readonly IClienteRepositorio _clienteRepositorio;
+        private readonly IValidarCliente _validarCliente;
 
-        public ClienteAppService(IMapper mapper, IClienteRepositorio clienteRepositorio)
+        public ClienteAppService(IMapper mapper, IClienteRepositorio clienteRepositorio, IValidarCliente validarCliente)
         {
             _mapper = mapper;
             _clienteRepositorio = clienteRepositorio;
+            _validarCliente = validarCliente;
         }
 
-        public void Adicionar(ClienteViewModel clienteViewModel)
+        public IList<Erro> Adicionar(ClienteViewModel clienteViewModel)
         {
             var cliente = _mapper.Map<Cliente>(clienteViewModel);
-            _clienteRepositorio.Adicionar(cliente);
+            _validarCliente.Validar(cliente);
+            
+            if (_validarCliente.Erros.Count() == 0)
+                _clienteRepositorio.Adicionar(cliente);
+
+            return _validarCliente.Erros;
         }
 
         public void Atualizar(ClienteViewModel clienteViewModel)
@@ -46,6 +54,12 @@ namespace Loja.Application.Services
         {
             var cliente = _mapper.Map<Cliente>(clienteViewModel);
             _clienteRepositorio.Remover(cliente);
+        }
+
+        public bool CpfExiste(ClienteViewModel clienteViewModel)
+        {
+            var cliente = _mapper.Map<Cliente>(clienteViewModel);
+            return _clienteRepositorio.CpfExiste(cliente);
         }
     }
 }

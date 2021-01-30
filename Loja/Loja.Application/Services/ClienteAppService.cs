@@ -26,7 +26,7 @@ namespace Loja.Application.Services
         public IList<Erro> Adicionar(ClienteViewModel clienteViewModel)
         {
             var cliente = _mapper.Map<Cliente>(clienteViewModel);
-            _validarCliente.Validar(cliente);
+            _validarCliente.ValidarCadastro(cliente);
             
             if (_validarCliente.Erros.Count() == 0)
                 _clienteRepositorio.Adicionar(cliente);
@@ -34,13 +34,18 @@ namespace Loja.Application.Services
             return _validarCliente.Erros;
         }
 
-        public void Atualizar(ClienteViewModel clienteViewModel)
+        public IList<Erro> Atualizar(ClienteViewModel clienteViewModel)
         {
             var cliente = _mapper.Map<Cliente>(clienteViewModel);
-            _clienteRepositorio.Atualizar(cliente);
+            _validarCliente.ValidarEdicao(cliente);
+           
+            if (_validarCliente.Erros.Count() == 0)
+                _clienteRepositorio.Atualizar(cliente);
+
+            return _validarCliente.Erros;
         }
 
-        public async Task<ClienteViewModel> BuscarPorId(int id)
+        public async Task<ClienteViewModel> BuscarPorId(int? id)
         {
             return _mapper.Map<ClienteViewModel>(await _clienteRepositorio.BuscarPorId(id));
         }
@@ -50,16 +55,15 @@ namespace Loja.Application.Services
             return _mapper.Map<IEnumerable<ClienteViewModel>>(await _clienteRepositorio.BuscarTodos());
         }
 
-        public void Remover(ClienteViewModel clienteViewModel)
+        public IList<Erro> Remover(ClienteViewModel clienteViewModel)
         {
             var cliente = _mapper.Map<Cliente>(clienteViewModel);
-            _clienteRepositorio.Remover(cliente);
-        }
+            _validarCliente.ValidarCadastro(cliente);
 
-        public bool CpfExiste(ClienteViewModel clienteViewModel)
-        {
-            var cliente = _mapper.Map<Cliente>(clienteViewModel);
-            return _clienteRepositorio.CpfExiste(cliente);
+            if (_validarCliente.Erros.Count() == 0)
+                _clienteRepositorio.Remover(cliente);
+
+            return _validarCliente.Erros;
         }
     }
 }

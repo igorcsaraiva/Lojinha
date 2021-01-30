@@ -1,7 +1,6 @@
 ﻿using Loja.Application.ViewModels;
-using System;
+using Loja.Domain.Validations;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Loja.Application.Interfaces
@@ -10,8 +9,8 @@ namespace Loja.Application.Interfaces
     {
         Task<IEnumerable<ProdutoViewModel>> BuscarTodos();
         Task<ProdutoViewModel> BuscarPorId(int id);
-        void Adicionar(ProdutoViewModel produtoViewModel);
-        void Atualizar(ProdutoViewModel produtoViewModel);
-        void Remover(ProdutoViewModel produtoViewModel);
+        IList<Erro> Adicionar(ProdutoViewModel produtoViewModel);
+        IList<Erro> Atualizar(ProdutoViewModel produtoViewModel);
+        IList<Erro> Remover(ProdutoViewModel produtoViewModel);
     }
 }

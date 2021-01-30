@@ -45,8 +45,8 @@ namespace Loja.Web.Controllers
                 try
                 {
                     var erros = _clienteAppSevicos.Adicionar(clienteViewModel);
-                    
-                    if(erros.Count() > 0)
+
+                    if (erros.Count() > 0)
                     {
                         foreach (var item in erros)
                         {
@@ -67,24 +67,46 @@ namespace Loja.Web.Controllers
         }
 
         // GET: ClienteController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            return View();
+            if (id == null)
+                return NotFound();
+
+            var clienteViewModel = _clienteAppSevicos.BuscarPorId(id).Result;
+
+            return View(clienteViewModel);
         }
 
         // POST: ClienteController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, ClienteViewModel clienteViewModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    var erros = _clienteAppSevicos.Atualizar(clienteViewModel);
+
+                    if (erros.Count() > 0)
+                    {
+                        foreach (var item in erros)
+                        {
+                            ModelState.AddModelError(item.Propriedade, item.MensagemErro);
+                        }
+
+                        return View(clienteViewModel);
+                    }
+
+                    return RedirectToAction(nameof(Index));
+                }
+                catch
+                {
+                    return View();
+                }
             }
-            catch
-            {
-                return View();
-            }
+            return View(clienteViewModel);
+
         }
 
         // GET: ClienteController/Delete/5

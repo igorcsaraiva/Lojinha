@@ -9,24 +9,24 @@ namespace Loja.Application.ViewModels
 {
     public class ProdutoViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "O campo {0} é obrigatório")]
         public int Codigo { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [ValidarCodigoBarras]
         [DisplayName("Código de barras")]
         public string CodigoBarras { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "O campo {0} é obrigatório")]
         public string Descricao { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [DisplayName("Valor de venda")]
         public string ValorDeVenda { get; set; }
 
         public int ID { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "O campo {0} é obrigatório")]
         public int Quantidade { get; set; }
     }
 }

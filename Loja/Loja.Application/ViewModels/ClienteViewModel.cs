@@ -14,7 +14,6 @@ namespace Loja.Application.ViewModels
         public int Codigo { get; set; }
 
         [Required(ErrorMessage = "O campo data é obrigatório")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
         [DataType(DataType.Date, ErrorMessage = "Data em formato inválido")]
         [DisplayName("Data nascimento")]
         [ValidarSeMaiorDeIdade]

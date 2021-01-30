@@ -44,7 +44,8 @@ namespace Loja.Web
             services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
             services.AddScoped<IProdutoAppServico, ProdutoAppService>();
             services.AddScoped<IProdutoRepositorio, ProdutoRepositorio>();
-            services.AddScoped<IValidarCliente, ServicosValidacaoCliente>();
+            services.AddScoped<IValidarCliente, ServicoValidacaoCliente>();
+            services.AddScoped<IValidarProduto, ServicoValidacaoProduto>();
             services.AddAutoMapper(typeof(ClienteDomainParaClienteViewModel), typeof(ClienteViewModelParaClienteDomain));
             services.AddAutoMapper(typeof(ProdutoDomainParaProdutoViewModel), typeof(ProdutoViewModelParaProdutoDomain));
             services.AddMvc().AddNewtonsoftJson(Op => Op.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);

@@ -28,7 +28,7 @@ namespace Loja.Infra.Repository
             _lojaContexto.SaveChanges();
         }
 
-        public async Task<Cliente> BuscarPorId(int id)
+        public async Task<Cliente> BuscarPorId(int? id)
         {
             return await _lojaContexto.Clientes.AsNoTracking().FirstOrDefaultAsync(c => c.ID == id);
         }
@@ -38,14 +38,20 @@ namespace Loja.Infra.Repository
             return await _lojaContexto.Clientes.ToListAsync();
         }
 
-        public bool CodigoExiste(Cliente Obj)
+        public async Task<Cliente> CodigoExiste(Cliente Obj)
         {
-            return _lojaContexto.Clientes.Where(c => c.Codigo == Obj.Codigo).Count() > 0;
+            return await _lojaContexto.Clientes.Where(c => c.Codigo == Obj.Codigo)
+                .Select(c => new Cliente { ID = c.ID })
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
         }
 
-        public bool CpfExiste(Cliente Obj)
+        public async Task<Cliente> CpfExiste(Cliente Obj)
         {
-            return _lojaContexto.Clientes.Where(c => c.Cpf.Cpf == Obj.Cpf.Cpf).Count() > 0;
+            return await _lojaContexto.Clientes.Where(c => c.Cpf.Cpf == Obj.Cpf.Cpf)
+                .Select(c => new Cliente { ID = c.ID })
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
         }
 
         public void Remover(Cliente Obj)

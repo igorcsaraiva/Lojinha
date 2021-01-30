@@ -2,9 +2,8 @@
 using Loja.Domain.Interfaces;
 using Loja.Infra.Context;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Loja.Infra.Repository
@@ -29,7 +28,7 @@ namespace Loja.Infra.Repository
             _lojaContexto.SaveChanges();
         }
 
-        public async Task<Produto> BuscarPorId(int id)
+        public async Task<Produto> BuscarPorId(int? id)
         {
             return await _lojaContexto.Produtos.AsNoTracking().FirstOrDefaultAsync(p => p.ID == id);
         }
@@ -37,6 +36,22 @@ namespace Loja.Infra.Repository
         public async Task<IEnumerable<Produto>> BuscarTodos()
         {
             return await _lojaContexto.Produtos.ToListAsync();
+        }
+
+        public async Task<Produto> CodigoExiste(Produto Obj)
+        {
+            return await _lojaContexto.Produtos.Where(p => p.Codigo == Obj.Codigo)
+                .Select(p => new Produto { ID = p.ID })
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<Produto> CodigoBarrasExiste(Produto Obj)
+        {
+            return await _lojaContexto.Produtos.Where(p => p.CodigoBarras.Codigo == Obj.CodigoBarras.Codigo)
+                .Select(p => new Produto { ID = p.ID })
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
         }
 
         public void Remover(Produto Obj)

@@ -43,11 +43,21 @@ namespace Loja.Web.Controllers
             {
                 try
                 {
-                    _produtoAppServico.Adicionar(produtoViewModel);
-                    
+                    var erros = _produtoAppServico.Adicionar(produtoViewModel);
+                   
+                    if (erros.Count() > 0)
+                    {
+                        foreach (var item in erros)
+                        {
+                            ModelState.AddModelError(item.Propriedade, item.MensagemErro);
+                        }
+
+                        return View(produtoViewModel);
+                    }
+
                     return RedirectToAction(nameof(Index));
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     return BadRequest(ex);
                 }

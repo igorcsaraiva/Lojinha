@@ -7,6 +7,8 @@ namespace Loja.Domain.Interfaces
     public interface IValidar<T> where T : Entidade
     {
         IList<Erro> Erros { get; }
-        void Validar(T Obj);
+        void ValidarCadastro(T Obj);
+        void ValidarEdicao(T Obj);
+        void ValidarRemocao(T Obj);
     }
 }

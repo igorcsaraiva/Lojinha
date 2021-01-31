@@ -1,0 +1,45 @@
+﻿@model Loja.Application.ViewModels.PedidoViewModelCriar
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+<form asp-action="Create" asp-controller="Pedido">
+    <span asp-validation-for="ClienteID" class="text-danger"></span>
+    <select asp-for="ClienteID" class="col-md-12 form-control" id="Clientes">
+        <option value="" disabled selected>Clientes</option>
+    </select>
+    <div id="tabela">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Descrição
+                    </th>
+                    <th>
+                        Valor
+                    </th>
+                    <th>
+                        Quantidade disponivel
+                    </th>
+                    <th>
+                        Quantidade Solicitada
+                    </th>
+                    <th>
+                        Selecionar
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="Produtos">               
+                                  
+            </tbody>
+        </table>
+    </div>
+    <br />
+    <input type="submit" value="Enviar" class="btn btn-primary" />
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/MontarViewCriarPedido.js"></script>
+}

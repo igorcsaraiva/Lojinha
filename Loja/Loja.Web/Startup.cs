@@ -42,7 +42,7 @@ namespace Loja.Web
             services.AddScoped<LojaContexto>();
             services.AddScoped<IClienteAppSevicos, ClienteAppService>();
             services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
-            services.AddScoped<IProdutoAppServico, ProdutoAppService>();
+            services.AddScoped<IProdutoAppServicos, ProdutoAppService>();
             services.AddScoped<IProdutoRepositorio, ProdutoRepositorio>();
             services.AddScoped<IValidarCliente, ServicoValidacaoCliente>();
             services.AddScoped<IValidarProduto, ServicoValidacaoProduto>();

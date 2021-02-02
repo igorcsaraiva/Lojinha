@@ -11,8 +11,8 @@ namespace Loja.Web.Controllers
 {
     public class ProdutoController : Controller
     {
-        private readonly IProdutoAppServico _produtoAppServico;
-        public ProdutoController(IProdutoAppServico produtoAppServico)
+        private readonly IProdutoAppServicos _produtoAppServico;
+        public ProdutoController(IProdutoAppServicos produtoAppServico)
         {
             _produtoAppServico = produtoAppServico;
         }

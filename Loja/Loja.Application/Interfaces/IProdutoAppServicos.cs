@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Loja.Application.Interfaces
 {
-    public interface IProdutoAppServico
+    public interface IProdutoAppServicos
     {
         Task<IEnumerable<ProdutoViewModel>> BuscarTodos();
         Task<ProdutoViewModel> BuscarPorId(int id);

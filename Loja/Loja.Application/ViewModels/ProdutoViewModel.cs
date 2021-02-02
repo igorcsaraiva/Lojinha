@@ -28,5 +28,6 @@ namespace Loja.Application.ViewModels
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         public int Quantidade { get; set; }
+        public int QuantidadeSolicitada { get; set; }
     }
 }

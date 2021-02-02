@@ -37,7 +37,7 @@ namespace Loja.Domain.Domain
             foreach (var item in PedidoItems)
                 valor += item.Produto.ValorDeVenda * item.Quantidade;
 
-            return valor;
+               return valor;
         }
     }
 }

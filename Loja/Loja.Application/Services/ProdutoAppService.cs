@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Loja.Application.Services
 {
-    public class ProdutoAppService : IProdutoAppServico
+    public class ProdutoAppService : IProdutoAppServicos
     {
         private readonly IMapper _mapper;
         private readonly IProdutoRepositorio _produtoRepositorio;

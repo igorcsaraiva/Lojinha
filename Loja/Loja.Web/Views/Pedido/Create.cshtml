@@ -1,45 +1,85 @@
-﻿@model Loja.Application.ViewModels.PedidoViewModelCriar
+﻿@model Loja.Application.ViewModels.PedidoViewModelCadastro
+
 @{
     ViewData["Title"] = "Create";
+    var clientes = new SelectList(Model.Clientes, "ID", "Nome", Model.Clientes.Select(x => x.ID));
 }
 
 <h1>Create</h1>
 <form asp-action="Create" asp-controller="Pedido">
-    <span asp-validation-for="ClienteID" class="text-danger"></span>
-    <select asp-for="ClienteID" class="col-md-12 form-control" id="Clientes">
+    <span asp-validation-for="ClienteDoPedido" class="text-danger"></span>
+    <select asp-for="ClienteDoPedido" class="col-md-12 form-control" asp-items="@clientes">
         <option value="" disabled selected>Clientes</option>
     </select>
-    <div id="tabela">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        Descrição
-                    </th>
-                    <th>
-                        Valor
-                    </th>
-                    <th>
-                        Quantidade disponivel
-                    </th>
-                    <th>
-                        Quantidade Solicitada
-                    </th>
-                    <th>
-                        Selecionar
-                    </th>
-                </tr>
-            </thead>
-            <tbody id="Produtos">               
-                                  
-            </tbody>
-        </table>
-    </div>
     <br />
-    <input type="submit" value="Enviar" class="btn btn-primary" />
+    <br />
+    <span asp-validation-for="QuantidadeDoPedido" class="text-danger"></span>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Descrição
+                </th>
+                <th>
+                    Valor
+                </th>
+                <th>
+                    Quantidade disponivel
+                </th>
+                <th>
+                    Quantidade Solicitada
+                </th>
+                <th>
+                    Selecionar
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Produtos)
+            {
+                <tr class="Produtos">
+                    <td>
+                        @item.Descricao
+                    </td>
+                    <td>
+                        @item.ValorDeVenda
+                    </td>
+                    <td>
+                        @item.Quantidade
+                    </td>
+                    <td>
+                        @{
+                            int? quantidadeEscolhida = null;
+                            for (int i = 0; i < Model.ProdutosDoPedidoId?.Length; i++)
+                            {
+                                if (Model.ProdutosDoPedidoId?[i] == item.ID)
+                                {
+                                    quantidadeEscolhida = Model.QuantidadeDoPedido[i];
+                                }
+                            }
+                            if (Model.ProdutosDoPedidoId?.Length > 0)
+                            {
+                                <input id="input_@item.ID" asp-for="QuantidadeDoPedido" type="number" value="@quantidadeEscolhida" onchange="ValidarProdutoSelecionado(@item.Quantidade, 'input_@item.ID', 'chek_@item.ID')" />
+                            }
+                            else
+                            {
+                                <input id="input_@item.ID" asp-for="QuantidadeDoPedido" type="number" onchange="ValidarProdutoSelecionado(@item.Quantidade, 'input_@item.ID', 'chek_@item.ID')" />
+                            }
+                        }
+                    </td>
+                    <td>
+                        <input id="chek_@item.ID" name="ProdutosDoPedidoId" value="@item.ID" type="checkbox" onchange="ValidarProdutoSelecionado(@item.Quantidade, 'input_@item.ID', 'chek_@item.ID')" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    <input type="submit" value="Enviar" class="btn btn-default" />
 </form>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script src="~/js/MontarViewCriarPedido.js"></script>
+    <script src="~/js/ValidarPedido.js"></script>
 }
+

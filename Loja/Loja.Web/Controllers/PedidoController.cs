@@ -12,8 +12,8 @@ namespace Loja.Web.Controllers
     public class PedidoController : Controller
     {
         private readonly IClienteAppSevicos _clienteAppSevicos;
-        private readonly IProdutoAppServico _produtoAppServico;
-        public PedidoController(IClienteAppSevicos clienteAppSevicos, IProdutoAppServico produtoAppServico)
+        private readonly IProdutoAppServicos _produtoAppServico;
+        public PedidoController(IClienteAppSevicos clienteAppSevicos, IProdutoAppServicos produtoAppServico)
         {
             _clienteAppSevicos = clienteAppSevicos;
             _produtoAppServico = produtoAppServico;
@@ -33,13 +33,22 @@ namespace Loja.Web.Controllers
         // GET: PedidoController/Create
         public ActionResult Create()
         {
-            return View();
+            var pedidoViewModel = new PedidoViewModelCadastro();
+            PreencherPedidoViewModel(pedidoViewModel);
+
+            return View(pedidoViewModel);
+        }
+
+        private void PreencherPedidoViewModel(PedidoViewModelCadastro pedidoViewModel)
+        {
+            pedidoViewModel.Clientes = _clienteAppSevicos.BuscarTodos().Result;
+            pedidoViewModel.Produtos = _produtoAppServico.BuscarTodos().Result;
         }
 
         // POST: PedidoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(PedidoViewModelCriar produtoViewModelCriar)
+        public ActionResult Create(PedidoViewModelCadastro pedidoViewModel)
         {
             try
             {
@@ -47,8 +56,11 @@ namespace Loja.Web.Controllers
             }
             catch
             {
-                return View();
             }
+
+            PreencherPedidoViewModel(pedidoViewModel);
+
+            return View(pedidoViewModel);
         }
 
         // GET: PedidoController/Edit/5
@@ -93,20 +105,5 @@ namespace Loja.Web.Controllers
             }
         }
 
-        [HttpGet]
-        public JsonResult CarregarClientes()
-        {
-            var ListaCliente = _clienteAppSevicos.BuscarTodos().Result;
-
-            return Json(new { ListaCliente });
-        }
-
-        [HttpGet]
-        public JsonResult CarregarProdutos()
-        {
-            var ListaProduto = _produtoAppServico.BuscarTodos().Result;
-
-            return Json(new { ListaProduto });
-        }
     }
 }

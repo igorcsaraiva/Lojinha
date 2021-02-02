@@ -18,6 +18,7 @@ using System.Text.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Loja.Application.AssembleOrder;
 
 namespace Loja.Web
 {
@@ -44,8 +45,12 @@ namespace Loja.Web
             services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
             services.AddScoped<IProdutoAppServicos, ProdutoAppService>();
             services.AddScoped<IProdutoRepositorio, ProdutoRepositorio>();
+            services.AddScoped<IPedidoAppServicos, PedidoAppService>();
+            services.AddScoped<IPedidosRepositorio, PedidoRepositorio>();
             services.AddScoped<IValidarCliente, ServicoValidacaoCliente>();
             services.AddScoped<IValidarProduto, ServicoValidacaoProduto>();
+            services.AddScoped<IValidarPedido, ServicoValidacaoPedido>();
+            services.AddScoped<IMontarPedido, PedidoViewModelCadastrarParaPedidoDomain>();
             services.AddAutoMapper(typeof(ClienteDomainParaClienteViewModel), typeof(ClienteViewModelParaClienteDomain));
             services.AddAutoMapper(typeof(ProdutoDomainParaProdutoViewModel), typeof(ProdutoViewModelParaProdutoDomain));
             services.AddMvc().AddNewtonsoftJson(Op => Op.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);

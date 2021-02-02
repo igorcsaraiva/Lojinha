@@ -10,6 +10,6 @@ namespace Loja.Application.ViewModels
         public IEnumerable<ProdutoViewModel> Produtos { get; set; }
         public int? ClienteDoPedido { get; set; }
         public int[] QuantidadeDoPedido { get; set; }
-        public int[] ProdutosDoPedidoId { get; set; }
+        public int[] IdProdutosDoPedido { get; set; }
     }
 }

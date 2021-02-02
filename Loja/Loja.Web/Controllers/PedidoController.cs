@@ -13,10 +13,12 @@ namespace Loja.Web.Controllers
     {
         private readonly IClienteAppSevicos _clienteAppSevicos;
         private readonly IProdutoAppServicos _produtoAppServico;
-        public PedidoController(IClienteAppSevicos clienteAppSevicos, IProdutoAppServicos produtoAppServico)
+        private readonly IPedidoAppServicos _pedidoAppServicos;
+        public PedidoController(IClienteAppSevicos clienteAppSevicos, IProdutoAppServicos produtoAppServico, IPedidoAppServicos pedidoAppServicos)
         {
             _clienteAppSevicos = clienteAppSevicos;
             _produtoAppServico = produtoAppServico;
+            _pedidoAppServicos = pedidoAppServicos;
         }
         // GET: PedidoController
         public ActionResult Index()
@@ -33,34 +35,50 @@ namespace Loja.Web.Controllers
         // GET: PedidoController/Create
         public ActionResult Create()
         {
-            var pedidoViewModel = new PedidoViewModelCadastro();
-            PreencherPedidoViewModel(pedidoViewModel);
+            var pedidoViewModelCadastro = new PedidoViewModelCadastro();
+            PreencherPedidoViewModelCadastro(pedidoViewModelCadastro);
 
-            return View(pedidoViewModel);
+            return View(pedidoViewModelCadastro);
         }
 
-        private void PreencherPedidoViewModel(PedidoViewModelCadastro pedidoViewModel)
+        private void PreencherPedidoViewModelCadastro(PedidoViewModelCadastro pedidoViewModelCadastro)
         {
-            pedidoViewModel.Clientes = _clienteAppSevicos.BuscarTodos().Result;
-            pedidoViewModel.Produtos = _produtoAppServico.BuscarTodos().Result;
+            pedidoViewModelCadastro.Clientes = _clienteAppSevicos.BuscarTodos().Result;
+            pedidoViewModelCadastro.Produtos = _produtoAppServico.BuscarTodos().Result;
         }
 
         // POST: PedidoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(PedidoViewModelCadastro pedidoViewModel)
+        public ActionResult Create(PedidoViewModelCadastro pedidoViewModelCadastro)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
+                try
+                {
+                    var erros = _pedidoAppServicos.Adicionar(pedidoViewModelCadastro);
+
+                    if (erros.Count > 0)
+                    {
+                        foreach (var item in erros)
+                        {
+                            ModelState.AddModelError(item.Propriedade, item.MensagemErro);
+                            PreencherPedidoViewModelCadastro(pedidoViewModelCadastro);
+                            return View(pedidoViewModelCadastro);
+                        }
+                    }
+
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex);
+                }
             }
 
-            PreencherPedidoViewModel(pedidoViewModel);
+            PreencherPedidoViewModelCadastro(pedidoViewModelCadastro);
 
-            return View(pedidoViewModel);
+            return View(pedidoViewModelCadastro);
         }
 
         // GET: PedidoController/Edit/5

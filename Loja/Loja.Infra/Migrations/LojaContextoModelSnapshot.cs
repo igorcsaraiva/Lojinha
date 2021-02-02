@@ -82,7 +82,7 @@ namespace Loja.Infra.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Codigo")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("DataPedido")
                         .HasColumnType("datetime2");
@@ -90,6 +90,10 @@ namespace Loja.Infra.Migrations
                     b.HasKey("ID");
 
                     b.HasIndex("ClienteID");
+
+                    b.HasIndex("Codigo")
+                        .IsUnique()
+                        .HasFilter("[Codigo] IS NOT NULL");
 
                     b.ToTable("Pedidos");
                 });
@@ -157,7 +161,29 @@ namespace Loja.Infra.Migrations
                         .WithMany()
                         .HasForeignKey("ProdutoID");
 
+                    b.OwnsOne("Loja.Domain.ValueObjects.Dinheiro", "ValorProdutoNessePedido", b1 =>
+                        {
+                            b1.Property<int>("PedidoItemID")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .UseIdentityColumn();
+
+                            b1.Property<string>("Valor")
+                                .IsRequired()
+                                .HasColumnType("varchar(50)")
+                                .HasColumnName("ValorProdutoNessePedido");
+
+                            b1.HasKey("PedidoItemID");
+
+                            b1.ToTable("PedidoItem");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PedidoItemID");
+                        });
+
                     b.Navigation("Produto");
+
+                    b.Navigation("ValorProdutoNessePedido");
                 });
 
             modelBuilder.Entity("Loja.Domain.Domain.Pedidos", b =>

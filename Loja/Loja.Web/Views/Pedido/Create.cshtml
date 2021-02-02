@@ -13,7 +13,6 @@
     </select>
     <br />
     <br />
-    <span asp-validation-for="QuantidadeDoPedido" class="text-danger"></span>
     <table class="table">
         <thead>
             <tr>
@@ -50,14 +49,14 @@
                     <td>
                         @{
                             int? quantidadeEscolhida = null;
-                            for (int i = 0; i < Model.ProdutosDoPedidoId?.Length; i++)
+                            for (int i = 0; i < Model.IdProdutosDoPedido?.Length; i++)
                             {
-                                if (Model.ProdutosDoPedidoId?[i] == item.ID)
+                                if (Model.IdProdutosDoPedido?[i] == item.ID)
                                 {
                                     quantidadeEscolhida = Model.QuantidadeDoPedido[i];
                                 }
                             }
-                            if (Model.ProdutosDoPedidoId?.Length > 0)
+                            if (Model.IdProdutosDoPedido?.Length > 0)
                             {
                                 <input id="input_@item.ID" asp-for="QuantidadeDoPedido" type="number" value="@quantidadeEscolhida" onchange="ValidarProdutoSelecionado(@item.Quantidade, 'input_@item.ID', 'chek_@item.ID')" />
                             }
@@ -68,7 +67,7 @@
                         }
                     </td>
                     <td>
-                        <input id="chek_@item.ID" name="ProdutosDoPedidoId" value="@item.ID" type="checkbox" onchange="ValidarProdutoSelecionado(@item.Quantidade, 'input_@item.ID', 'chek_@item.ID')" />
+                        <input id="chek_@item.ID" name="IdProdutosDoPedido" value="@item.ID" type="checkbox" onchange="ValidarProdutoSelecionado(@item.Quantidade, 'input_@item.ID', 'chek_@item.ID')" />
                     </td>
                 </tr>
             }

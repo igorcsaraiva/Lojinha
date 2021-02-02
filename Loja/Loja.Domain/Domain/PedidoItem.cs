@@ -7,7 +7,8 @@ namespace Loja.Domain.Domain
     {
         public int Quantidade { get; set; }
         public Produto Produto { get; set; }
-        public Dinheiro TotalItemPedido => Produto.ValorDeVenda * Quantidade;
+        public Dinheiro TotalItemPedido => ValorProdutoNessePedido * Quantidade;
+        public Dinheiro ValorProdutoNessePedido { get; set; }
 
         public PedidoItem()
         {
@@ -19,10 +20,11 @@ namespace Loja.Domain.Domain
             Produto = produto;
         }
 
-        public PedidoItem(int quantidade, Produto produto)
+        public PedidoItem(int quantidade, Produto produto, Dinheiro valorProdutoNessePedido)
         {
             Quantidade = quantidade;
             Produto = produto;
+            ValorProdutoNessePedido = valorProdutoNessePedido;
         }
     }
 }

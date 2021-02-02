@@ -16,7 +16,8 @@ namespace Loja.Infra.Migrations
                     CPF = table.Column<string>(type: "varchar(11)", nullable: true),
                     DataNascimento = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Codigo = table.Column<int>(type: "int", nullable: false),
-                    Senha = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Senha = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -46,7 +47,7 @@ namespace Loja.Infra.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Codigo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Codigo = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ClienteID = table.Column<int>(type: "int", nullable: true),
                     DataPedido = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -69,6 +70,7 @@ namespace Loja.Infra.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Quantidade = table.Column<int>(type: "int", nullable: false),
                     ProdutoID = table.Column<int>(type: "int", nullable: true),
+                    ValorProdutoNessePedido = table.Column<string>(type: "varchar(50)", nullable: true),
                     PedidosID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -115,6 +117,13 @@ namespace Loja.Infra.Migrations
                 name: "IX_Pedidos_ClienteID",
                 table: "Pedidos",
                 column: "ClienteID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pedidos_Codigo",
+                table: "Pedidos",
+                column: "Codigo",
+                unique: true,
+                filter: "[Codigo] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Produtos_Codigo",

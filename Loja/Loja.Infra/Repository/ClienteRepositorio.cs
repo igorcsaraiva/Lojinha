@@ -30,7 +30,7 @@ namespace Loja.Infra.Repository
 
         public async Task<Cliente> BuscarPorId(int? id)
         {
-            return await _lojaContexto.Clientes.AsNoTracking().FirstOrDefaultAsync(c => c.ID == id);
+            return await _lojaContexto.Clientes.AsNoTrackingWithIdentityResolution().FirstOrDefaultAsync(c => c.ID == id);
         }
 
         public async Task<IEnumerable<Cliente>> BuscarTodos()

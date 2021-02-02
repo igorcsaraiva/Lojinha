@@ -10,7 +10,7 @@ namespace Loja.Domain.Domain
         public string Codigo { get; set; }
         public string ValorPedido => ValorTotalPedido().ValorFormatoTexto;
         public Cliente Cliente { get; set; }
-        public ICollection<PedidoItem> PedidoItems { get; set; }
+        public IEnumerable<PedidoItem> PedidoItems { get; set; }
 
         public DateTime DataPedido { get; set; }
 
@@ -21,7 +21,7 @@ namespace Loja.Domain.Domain
             DataPedido = DateTime.Now;
         }
 
-        public Pedidos(Cliente cliente, ICollection<PedidoItem> pedidoItems, int id) : base(id)
+        public Pedidos(Cliente cliente, IEnumerable<PedidoItem> pedidoItems, int id) : base(id)
         {
             Cliente = cliente;
             PedidoItems = pedidoItems;
@@ -35,9 +35,9 @@ namespace Loja.Domain.Domain
             Dinheiro valor = 0;
 
             foreach (var item in PedidoItems)
-                valor += item.Produto.ValorDeVenda * item.Quantidade;
+                valor += item.ValorProdutoNessePedido;
 
-               return valor;
+            return valor;
         }
     }
 }

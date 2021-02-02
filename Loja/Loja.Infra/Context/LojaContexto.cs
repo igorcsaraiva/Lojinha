@@ -12,13 +12,16 @@ namespace Loja.Infra.Context
         public DbSet<Pedidos> Pedidos { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Produto> Produtos { get; set; }
+        public DbSet<PedidoItem> PedidoItem { get; set; }
 
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+           
 
-            modelBuilder.Entity<Cliente>().HasIndex(p => p.Codigo).IsUnique();
+            modelBuilder.Entity<Cliente>().HasIndex(c => c.Codigo).IsUnique();
             modelBuilder.Entity<Produto>().HasIndex(p => p.Codigo).IsUnique();
+            modelBuilder.Entity<Pedidos>().HasIndex(p => p.Codigo).IsUnique();
 
             modelBuilder.Entity<Produto>().OwnsOne(p => p.CodigoBarras, codigoBarras =>
             {
@@ -34,6 +37,14 @@ namespace Loja.Infra.Context
                 dinheiro.Property(d => d.Valor)
                .IsRequired()
                .HasColumnName("ValorDeVenda")
+               .HasColumnType("varchar(50)");
+            });
+
+            modelBuilder.Entity<PedidoItem>().OwnsOne(p => p.ValorProdutoNessePedido, dinheiro =>
+            {
+                dinheiro.Property(d => d.Valor)
+               .IsRequired()
+               .HasColumnName("ValorProdutoNessePedido")
                .HasColumnType("varchar(50)");
             });
 

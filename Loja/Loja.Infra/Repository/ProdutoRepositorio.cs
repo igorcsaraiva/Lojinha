@@ -59,5 +59,10 @@ namespace Loja.Infra.Repository
             _lojaContexto.Produtos.Remove(Obj);
             _lojaContexto.SaveChanges();
         }
+
+        public async Task<IEnumerable<Produto>> ProdutosSelecionados(params int[] idProdutos)
+        {
+           return await _lojaContexto.Produtos.Where(p => idProdutos.Any(x => p.ID == x)).ToListAsync();
+        }
     }
 }

@@ -4,6 +4,7 @@ using Loja.Infra.Context;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,14 +36,22 @@ namespace Loja.Infra.Repository
             _lojaContexto.SaveChanges();
         }
 
+        public async Task<IEnumerable<PedidoItem>> BuscarItensDoPedido(int? id)
+        {
+            return await _lojaContexto.PedidoItem.Where(pi => pi.PedidosID == id)
+                .Include(p => p.Produto)
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
         public async Task<Pedidos> BuscarPorId(int? id)
         {
-            return await _lojaContexto.Pedidos.AsNoTracking().FirstOrDefaultAsync(p => p.ID == id);
+            return await _lojaContexto.Pedidos.Include(p=> p.Cliente).AsNoTracking().FirstOrDefaultAsync(p => p.ID == id);
         }
 
         public async Task<IEnumerable<Pedidos>> BuscarTodos()
         {
-            return await _lojaContexto.Pedidos.ToListAsync();
+            return await _lojaContexto.Pedidos.Include(p => p.Cliente).AsNoTracking().ToListAsync();
         }
 
         public void Remover(Pedidos Obj)

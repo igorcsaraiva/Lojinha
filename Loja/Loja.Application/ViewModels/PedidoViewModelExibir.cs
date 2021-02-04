@@ -1,16 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace Loja.Application.ViewModels
 {
-    public class PedidoViewModelCadastrar
+    public class PedidoViewModelExibir
     {
-        public int IdPedido { get; set; }
+        [DisplayName("Código")]
         public string Codigo { get; set; }
-        public string valorPedido { get; set; }
+
+        [DisplayName("Cliente")]
         public string NomeCliente { get; set; }
+
         public int IdCliente { get; set; }
+        public int ID { get; set; }
+
+        [DisplayName("Data do pedido")]
         public DateTime DataPedido { get; set; }
     }
 }

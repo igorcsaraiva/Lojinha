@@ -21,9 +21,9 @@ namespace Loja.Web.Controllers
             _pedidoAppServicos = pedidoAppServicos;
         }
         // GET: PedidoController
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            return View(await _pedidoAppServicos.BuscarTodos());
         }
 
         // GET: PedidoController/Details/5
@@ -52,33 +52,26 @@ namespace Loja.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(PedidoViewModelCadastro pedidoViewModelCadastro)
         {
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    var erros = _pedidoAppServicos.Adicionar(pedidoViewModelCadastro);
+                var erros = _pedidoAppServicos.Adicionar(pedidoViewModelCadastro);
 
-                    if (erros.Count > 0)
+                if (erros.Count > 0)
+                {
+                    foreach (var item in erros)
                     {
-                        foreach (var item in erros)
-                        {
-                            ModelState.AddModelError(item.Propriedade, item.MensagemErro);
-                            PreencherPedidoViewModelCadastro(pedidoViewModelCadastro);
-                            return View(pedidoViewModelCadastro);
-                        }
+                        ModelState.AddModelError(item.Propriedade, item.MensagemErro);        
                     }
+                    PreencherPedidoViewModelCadastro(pedidoViewModelCadastro);
+                    return View(pedidoViewModelCadastro);
+                }
 
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest(ex);
-                }
+                return RedirectToAction(nameof(Index));
             }
-
-            PreencherPedidoViewModelCadastro(pedidoViewModelCadastro);
-
-            return View(pedidoViewModelCadastro);
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         // GET: PedidoController/Edit/5
@@ -123,5 +116,9 @@ namespace Loja.Web.Controllers
             }
         }
 
+        public PartialViewResult ItemPedidoIndex(int? id)
+        {
+            return PartialView("~/Views/Shared/_ViewItensPedido.cshtml", _pedidoAppServicos.BuscarItensDoPedido(id).Result);
+        }
     }
 }

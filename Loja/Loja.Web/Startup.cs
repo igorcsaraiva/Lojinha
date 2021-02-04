@@ -19,6 +19,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Loja.Application.AssembleOrder;
+using Loja.Application.ViewModelValidation;
+using Loja.Application.ViewModels;
 
 namespace Loja.Web
 {
@@ -50,6 +52,7 @@ namespace Loja.Web
             services.AddScoped<IValidarCliente, ServicoValidacaoCliente>();
             services.AddScoped<IValidarProduto, ServicoValidacaoProduto>();
             services.AddScoped<IValidarPedido, ServicoValidacaoPedido>();
+            services.AddScoped<IValidarView<PedidoViewModelCadastro>, ValidarPedidoViewModelCadastro>();
             services.AddScoped<IMontarPedido, PedidoViewModelCadastrarParaPedidoDomain>();
             services.AddAutoMapper(typeof(ClienteDomainParaClienteViewModel), typeof(ClienteViewModelParaClienteDomain));
             services.AddAutoMapper(typeof(ProdutoDomainParaProdutoViewModel), typeof(ProdutoViewModelParaProdutoDomain));

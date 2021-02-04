@@ -9,10 +9,12 @@ namespace Loja.Application.Interfaces
 {
     public interface IPedidoAppServicos
     {
-        Task<IEnumerable<PedidoViewModelCadastro>> BuscarTodos();
+        Task<IEnumerable<PedidoViewModelExibir>> BuscarTodos();
         Task<PedidoViewModelCadastro> BuscarPorId(int id);
+        Task<IEnumerable<PedidoItemViewModel>> BuscarItensDoPedido(int? id);
         IList<Erro> Adicionar(PedidoViewModelCadastro pedidoViewModel);
         IList<Erro> Atualizar(PedidoViewModelCadastro pedidoViewModel);
         IList<Erro> Remover(PedidoViewModelCadastro pedidoViewModel);
+        
     }
 }

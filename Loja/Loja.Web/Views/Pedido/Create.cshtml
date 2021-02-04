@@ -13,6 +13,9 @@
     </select>
     <br />
     <br />
+    <span asp-validation-for="IdProdutosDoPedido" class="text-danger"></span>
+    <br />
+    <span asp-validation-for="QuantidadeDoPedido" class="text-danger"></span>
     <table class="table">
         <thead>
             <tr>
@@ -46,7 +49,7 @@
                     <td>
                         @item.Quantidade
                     </td>
-                    <td>
+                    <td class="input">
                         @{
                             int? quantidadeEscolhida = null;
                             for (int i = 0; i < Model.IdProdutosDoPedido?.Length; i++)
@@ -58,15 +61,15 @@
                             }
                             if (Model.IdProdutosDoPedido?.Length > 0)
                             {
-                                <input id="input_@item.ID" asp-for="QuantidadeDoPedido" type="number" value="@quantidadeEscolhida" onchange="ValidarProdutoSelecionado(@item.Quantidade, 'input_@item.ID', 'chek_@item.ID')" />
+                                <input id="input_@item.ID" name="QuantidadeDoPedido" type="number" value="@quantidadeEscolhida" onchange="ValidarProdutoSelecionado(@item.Quantidade, 'input_@item.ID', 'chek_@item.ID')" />
                             }
                             else
                             {
-                                <input id="input_@item.ID" asp-for="QuantidadeDoPedido" type="number" onchange="ValidarProdutoSelecionado(@item.Quantidade, 'input_@item.ID', 'chek_@item.ID')" />
+                                <input id="input_@item.ID" name="QuantidadeDoPedido" type="number" onchange="ValidarProdutoSelecionado(@item.Quantidade, 'input_@item.ID', 'chek_@item.ID')" />
                             }
                         }
                     </td>
-                    <td>
+                    <td class="chek">
                         <input id="chek_@item.ID" name="IdProdutosDoPedido" value="@item.ID" type="checkbox" onchange="ValidarProdutoSelecionado(@item.Quantidade, 'input_@item.ID', 'chek_@item.ID')" />
                     </td>
                 </tr>
@@ -74,7 +77,7 @@
         </tbody>
     </table>
     <br />
-    <input type="submit" value="Enviar" class="btn btn-default" />
+    <input type="submit" value="Enviar" class="btn btn-primary" id="enviarPedido" onclick=" return ValidarEnvio();"/>
 </form>
 
 @section Scripts {

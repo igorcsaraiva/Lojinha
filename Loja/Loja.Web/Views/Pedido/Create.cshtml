@@ -7,6 +7,7 @@
 
 <h1>Create</h1>
 <form asp-action="Create" asp-controller="Pedido">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <span asp-validation-for="ClienteDoPedido" class="text-danger"></span>
     <select asp-for="ClienteDoPedido" class="col-md-12 form-control" asp-items="@clientes">
         <option value="" disabled selected>Clientes</option>
@@ -15,7 +16,6 @@
     <br />
     <span asp-validation-for="IdProdutosDoPedido" class="text-danger"></span>
     <br />
-    <span asp-validation-for="QuantidadeDoPedido" class="text-danger"></span>
     <table class="table">
         <thead>
             <tr>
@@ -77,7 +77,7 @@
         </tbody>
     </table>
     <br />
-    <input type="submit" value="Enviar" class="btn btn-primary" id="enviarPedido" onclick=" return ValidarEnvio();"/>
+    <input type="submit" value="Enviar" class="btn btn-primary" id="enviarPedido" onclick=" return ValidarEnvio();" />
 </form>
 
 @section Scripts {

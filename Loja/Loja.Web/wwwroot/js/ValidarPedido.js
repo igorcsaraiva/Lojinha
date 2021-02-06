@@ -47,8 +47,8 @@ function ValidarEnvio() {
     }
 
     return true;
-
 }
+
 $(document).ready(function () {
     $('.detalhe').click(function () {
         var id = $(this).val();
@@ -58,6 +58,7 @@ $(document).ready(function () {
         });
     });
 });
+
 
 
 

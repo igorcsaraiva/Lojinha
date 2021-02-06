@@ -9,7 +9,8 @@ namespace Loja.Application.AutoMapper
         public PedidoDomainParaPedidoViewModelExibir()
         {
             CreateMap<Pedidos, PedidoViewModelExibir>().ForMember(dest => dest.NomeCliente, ori => ori.MapFrom(src => src.Cliente.Nome))
-                .ForMember(dest => dest.IdCliente, ori => ori.MapFrom(src => src.Cliente.ID));
+                .ForMember(dest => dest.IdCliente, ori => ori.MapFrom(src => src.Cliente.ID))
+                .ForMember(dest => dest.ValorPedido, ori => ori.MapFrom(src => src.ValorPedido));
         }
     }
 }

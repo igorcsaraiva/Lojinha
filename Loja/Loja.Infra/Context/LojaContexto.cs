@@ -22,6 +22,8 @@ namespace Loja.Infra.Context
             modelBuilder.Entity<Cliente>().HasIndex(c => c.Codigo).IsUnique();
             modelBuilder.Entity<Produto>().HasIndex(p => p.Codigo).IsUnique();
             modelBuilder.Entity<Pedidos>().HasIndex(p => p.Codigo).IsUnique();
+            modelBuilder.Entity<Pedidos>().HasMany(p => p.PedidoItems).WithOne().OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Produto>().Property(p => p.VersaoLinha).IsConcurrencyToken().ValueGeneratedOnAddOrUpdate();
 
             modelBuilder.Entity<Produto>().OwnsOne(p => p.CodigoBarras, codigoBarras =>
             {

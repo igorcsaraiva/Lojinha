@@ -7,6 +7,7 @@ namespace Loja.Domain.Domain
     {
         public int Quantidade { get; set; }
         public int PedidosID { get; set; }
+        public int ProdutoID { get; set; }
         public Produto Produto { get; set; }
         public Dinheiro TotalItemPedido => ValorProdutoNessePedido * Quantidade;
         public Dinheiro ValorProdutoNessePedido { get; set; }
@@ -26,6 +27,15 @@ namespace Loja.Domain.Domain
             Quantidade = quantidade;
             Produto = produto;
             ValorProdutoNessePedido = valorProdutoNessePedido;
+        }
+
+        public bool ValidarQuantidadeNoEstoque()
+        {
+            return Quantidade <= Produto.Quantidade;
+        }
+        public bool ValidarQauntidadeMaiorQueZero()
+        {
+            return Quantidade > 0;
         }
     }
 }

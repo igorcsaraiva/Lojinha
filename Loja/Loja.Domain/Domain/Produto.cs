@@ -11,6 +11,8 @@ namespace Loja.Domain.Domain
         public Dinheiro ValorDeVenda { get; set; }
         public int Quantidade { get; set; }
 
+        public byte[] VersaoLinha { get; set; }
+
         public Produto()
         {
         }

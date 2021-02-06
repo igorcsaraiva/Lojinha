@@ -10,6 +10,9 @@ namespace Loja.Application.ViewModels
 
         [DisplayName("Cliente")]
         public string NomeCliente { get; set; }
+        
+        [DisplayName("Valor do pedido")]
+        public string ValorPedido { get; set; }
 
         public int IdCliente { get; set; }
         public int ID { get; set; }

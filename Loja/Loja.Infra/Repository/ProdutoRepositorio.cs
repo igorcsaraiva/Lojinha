@@ -35,7 +35,7 @@ namespace Loja.Infra.Repository
 
         public async Task<IEnumerable<Produto>> BuscarTodos()
         {
-            return await _lojaContexto.Produtos.ToListAsync();
+            return await _lojaContexto.Produtos.AsNoTracking().ToListAsync();
         }
 
         public async Task<Produto> CodigoExiste(Produto Obj)
@@ -62,7 +62,7 @@ namespace Loja.Infra.Repository
 
         public async Task<IEnumerable<Produto>> ProdutosSelecionados(params int[] idProdutos)
         {
-           return await _lojaContexto.Produtos.Where(p => idProdutos.Any(x => p.ID == x)).ToListAsync();
+           return await _lojaContexto.Produtos.Where(p => idProdutos.Any(x => p.ID == x)).AsNoTracking().ToListAsync();
         }
     }
 }

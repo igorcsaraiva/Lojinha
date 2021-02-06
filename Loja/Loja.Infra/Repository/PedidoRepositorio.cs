@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+
 namespace Loja.Infra.Repository
 {
     public class PedidoRepositorio : IPedidosRepositorio
@@ -21,9 +23,11 @@ namespace Loja.Infra.Repository
 
         public void Adicionar(Pedidos Obj)
         {
+            Obj.AtualizarEstoque();
             _lojaContexto.Entry(Obj.Cliente).State = EntityState.Detached;
             foreach (var item in Obj.PedidoItems)
             {
+                _lojaContexto.Produtos.Update(item.Produto);
                 _lojaContexto.PedidoItem.Add(item);
             }
             _lojaContexto.Entry(Obj).State = EntityState.Added;
@@ -46,12 +50,17 @@ namespace Loja.Infra.Repository
 
         public async Task<Pedidos> BuscarPorId(int? id)
         {
-            return await _lojaContexto.Pedidos.Include(p=> p.Cliente).AsNoTracking().FirstOrDefaultAsync(p => p.ID == id);
+            return await _lojaContexto.Pedidos.Include(p => p.Cliente)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.ID == id);
         }
 
         public async Task<IEnumerable<Pedidos>> BuscarTodos()
         {
-            return await _lojaContexto.Pedidos.Include(p => p.Cliente).AsNoTracking().ToListAsync();
+            return await _lojaContexto.Pedidos.Include(p => p.Cliente)
+               .Include(p => p.PedidoItems)
+               .ThenInclude(pi => pi.Produto)
+               .ToListAsync();
         }
 
         public void Remover(Pedidos Obj)

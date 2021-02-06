@@ -4,6 +4,7 @@ using Loja.Domain.Validations;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace Loja.Application.ViewModelValidation
 {
@@ -27,7 +28,10 @@ namespace Loja.Application.ViewModelValidation
             if (obj.ClienteDoPedido is null)
                 Erros.Add(new Erro { Propriedade = "ClienteDoPedido", MensagemErro = "Selecione um cliente" });
             if(obj.IdProdutosDoPedido?.Length != obj.QuantidadeDoPedido?.Length)
-                Erros.Add(new Erro { Propriedade = "QuantidadeDoPedido", MensagemErro = "Produtos e quantidades estão inconsistentes" });
+                Erros.Add(new Erro { Propriedade = string.Empty, MensagemErro = "Produtos e quantidades estão inconsistentes" });
+            if (obj.QuantidadeDoPedido.Where(x => x < 0).Count() > 0)
+                Erros.Add(new Erro { Propriedade = string.Empty, MensagemErro = "Quantidade inválida" });
+
         }
     }
 }

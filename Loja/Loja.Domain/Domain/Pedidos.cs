@@ -9,6 +9,7 @@ namespace Loja.Domain.Domain
     {
         public string Codigo { get; set; }
         public string ValorPedido => ValorTotalPedido().ValorFormatoTexto;
+        public int ClienteID { get; set; }
         public Cliente Cliente { get; set; }
         public IEnumerable<PedidoItem> PedidoItems { get; set; }
 
@@ -30,14 +31,22 @@ namespace Loja.Domain.Domain
             ID = id;
         }
 
-        public Dinheiro ValorTotalPedido()
+        private Dinheiro ValorTotalPedido()
         {
             Dinheiro valor = 0;
 
             foreach (var item in PedidoItems)
-                valor += item.ValorProdutoNessePedido;
+                valor += item.TotalItemPedido;
 
             return valor;
+        }
+
+        public void AtualizarEstoque()
+        {
+            foreach (var item in PedidoItems)
+            {
+                item.Produto.Quantidade -= item.Quantidade;
+            }
         }
     }
 }

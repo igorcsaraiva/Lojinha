@@ -63,10 +63,38 @@ namespace Loja.Infra.Repository
                .ToListAsync();
         }
 
+        public async Task<IEnumerable<Pedidos>> BuscarPedidosPorFiltro(string valor, DateTime? dataInicio, DateTime? dataFim)
+        {
+            var pedidosPorCodigoOuCpfCliente = PedidosPorCodigoOuCpfCliente(valor);
+
+            var pedidosEntreDatas = PedidosEntreDatas(dataInicio, dataFim);
+
+            if (dataInicio is null && dataFim is null)
+                return await pedidosPorCodigoOuCpfCliente.ToListAsync();
+            else if (valor is null)
+                return await pedidosEntreDatas.ToListAsync();
+            else
+                return await pedidosPorCodigoOuCpfCliente.Where(p => p.DataPedido >= dataInicio && p.DataPedido <= dataFim).ToListAsync();
+        }
+
         public void Remover(Pedidos Obj)
         {
             _lojaContexto.Pedidos.Remove(Obj);
             _lojaContexto.SaveChanges();
+        }
+
+        private IQueryable<Pedidos> PedidosPorCodigoOuCpfCliente(string valor)
+        {
+            return _lojaContexto.Pedidos.Include(p => p.Cliente)
+                   .Include(p => p.PedidoItems)
+                   .Where(p => p.Cliente.Cpf.Cpf == valor  || p.Codigo == valor);
+        }
+
+        private IQueryable<Pedidos> PedidosEntreDatas(DateTime? dataInicio, DateTime? dataFim)
+        {
+            return _lojaContexto.Pedidos.Include(p => p.Cliente)
+                   .Include(p => p.PedidoItems)
+                   .Where(p => p.DataPedido >= dataInicio && p.DataPedido <= dataFim);
         }
     }
 }

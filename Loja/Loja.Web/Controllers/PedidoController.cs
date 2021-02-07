@@ -21,15 +21,24 @@ namespace Loja.Web.Controllers
             _pedidoAppServicos = pedidoAppServicos;
         }
         // GET: PedidoController
-        public async Task<ActionResult> Index()
-        {
-            return View(await _pedidoAppServicos.BuscarTodos());
-        }
-
-        // GET: PedidoController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Index()
         {
             return View();
+        }
+
+        public async Task<PartialViewResult> ListarPedidos()
+        {
+            return PartialView("~/Views/Shared/_ViewListarPedidos.cshtml", await _pedidoAppServicos.BuscarTodos());
+        }
+
+        public async Task<PartialViewResult> ListarPedidosPorFiltro(DateTime? dataInicio, DateTime? dataFim, string valor = "")
+        {
+            return PartialView("~/Views/Shared/_ViewListarPedidos.cshtml", await _pedidoAppServicos.BuscarPedidosPorFiltro(valor,dataInicio,dataFim));
+        }
+
+        public async Task<PartialViewResult> ItemPedidoIndex(int? id)
+        {
+            return PartialView("~/Views/Shared/_ViewItensPedido.cshtml", await _pedidoAppServicos.BuscarItensDoPedido(id));
         }
 
         // GET: PedidoController/Create
@@ -44,7 +53,7 @@ namespace Loja.Web.Controllers
         private void PreencherPedidoViewModelCadastro(PedidoViewModelCadastro pedidoViewModelCadastro)
         {
             pedidoViewModelCadastro.Clientes = _clienteAppSevicos.BuscarTodos().Result;
-            pedidoViewModelCadastro.Produtos = _produtoAppServico.BuscarTodos().Result;
+            pedidoViewModelCadastro.Produtos =  _produtoAppServico.BuscarTodos().Result;
         }
 
         // POST: PedidoController/Create
@@ -70,7 +79,9 @@ namespace Loja.Web.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                ModelState.AddModelError(string.Empty, ex.Message);
+                PreencherPedidoViewModelCadastro(pedidoViewModelCadastro);
+                return View(pedidoViewModelCadastro);
             }
         }
 
@@ -114,11 +125,6 @@ namespace Loja.Web.Controllers
             {
                 return View();
             }
-        }
-
-        public PartialViewResult ItemPedidoIndex(int? id)
-        {
-            return PartialView("~/Views/Shared/_ViewItensPedido.cshtml", _pedidoAppServicos.BuscarItensDoPedido(id).Result);
         }
     }
 }

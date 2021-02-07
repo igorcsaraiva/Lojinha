@@ -52,9 +52,14 @@ namespace Loja.Application.Services
             return _maper.Map<IEnumerable<PedidoItemViewModel>>(await _pedidosRepositorio.BuscarItensDoPedido(id));
         }
 
-        public Task<PedidoViewModelCadastro> BuscarPorId(int id)
+        public async Task<IEnumerable<PedidoViewModelExibir>> BuscarPedidosPorFiltro(string valor, DateTime? dataInicio, DateTime? dataFim)
         {
-            throw new NotImplementedException();
+            return _maper.Map<IEnumerable<PedidoViewModelExibir>>(await _pedidosRepositorio.BuscarPedidosPorFiltro(valor, dataInicio, dataFim));
+        }
+
+        public async Task<IEnumerable<PedidoViewModelExibir>> BuscarPorId(int id)
+        {
+            return _maper.Map<IEnumerable<PedidoViewModelExibir>>(await _pedidosRepositorio.BuscarPorId(id));
         }
 
         public async Task<IEnumerable<PedidoViewModelExibir>> BuscarTodos()

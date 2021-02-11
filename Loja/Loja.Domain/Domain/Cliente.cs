@@ -1,4 +1,5 @@
-﻿using Loja.Domain.Extensions;
+﻿using Loja.Domain.Enuns;
+using Loja.Domain.Extensions;
 using Loja.Domain.Shared;
 using Loja.Domain.ValueObjects;
 using System;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace Loja.Domain.Domain
 {
-    public class Cliente : Entidade
+    public class Cliente : Usuario
     {
         public CPF Cpf { get; set; }
         public DateTime DataNascimento { get; set; }
@@ -20,7 +21,7 @@ namespace Loja.Domain.Domain
         {
         }
 
-        public Cliente(CPF cpf, DateTime dataNascimento, int codigo, string senha, string nome, int id) : base(id)
+        public Cliente(CPF cpf, DateTime dataNascimento, int codigo, string senha, string nome, ETipoUsuario tipoUsuario, int id) : base(tipoUsuario, id)
         {
             Cpf = cpf;
             DataNascimento = dataNascimento;

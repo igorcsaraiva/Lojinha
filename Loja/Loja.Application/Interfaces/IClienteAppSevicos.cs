@@ -7,10 +7,11 @@ namespace Loja.Application.Interfaces
 {
     public interface IClienteAppSevicos
     {
-        Task<IEnumerable<ClienteViewModel>> BuscarTodos();
-        Task<ClienteViewModel> BuscarPorId(int? id);
-        IList<Erro> Adicionar(ClienteViewModel clienteViewModel);
-        IList<Erro> Atualizar(ClienteViewModel clienteViewModel);
-        IList<Erro> Remover(ClienteViewModel clienteViewModel);
+        Task<IEnumerable<UsuarioViewModel>> BuscarTodos();
+        Task<UsuarioViewModel> BuscarPorId(int? id);
+        Task<UsuarioViewModel> BuscarPeloLoginSenha(string login, string senha);
+        IList<Erro> Adicionar(UsuarioViewModel clienteViewModel);
+        IList<Erro> Atualizar(UsuarioViewModel clienteViewModel);
+        IList<Erro> Remover(UsuarioViewModel clienteViewModel);
     }
 }

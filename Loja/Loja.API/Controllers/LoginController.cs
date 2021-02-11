@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Loja.API.Services;
+using Loja.Application.Interfaces;
+using Loja.Application.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -7,81 +11,37 @@ using System.Threading.Tasks;
 
 namespace Loja.API.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class LoginController : Controller
     {
-        // GET: LoginController
-        public ActionResult Index()
+
+        private readonly IClienteAppSevicos _clienteAppSevicos;
+        private readonly ServicoToken _servicoToken;
+
+        public LoginController(IClienteAppSevicos clienteAppSevicos, ServicoToken servicoToken)
         {
-            return View();
+            _clienteAppSevicos = clienteAppSevicos;
+            _servicoToken = servicoToken;
         }
 
-        // GET: LoginController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
 
-        // GET: LoginController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: LoginController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        [AllowAnonymous]
+        [Route("logar")]
+        public async Task<ActionResult<UsuarioLoginViewModel>> Logar(string login, string senha)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var cliente = await _clienteAppSevicos.BuscarPeloLoginSenha(login, senha);
+
+            if (cliente is null) return BadRequest("Cliente não consta na base");
+
+
+            var token = _servicoToken.GerarToken(cliente);
+
+            return Ok(new UsuarioLoginViewModel { ID = cliente.ID, Token = token });
+
         }
 
-        // GET: LoginController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: LoginController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: LoginController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: LoginController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        
     }
 }

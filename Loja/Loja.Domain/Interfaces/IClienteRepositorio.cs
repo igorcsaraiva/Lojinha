@@ -7,5 +7,6 @@ namespace Loja.Domain.Interfaces
     {
         Task<Cliente> CpfExiste(Cliente Obj);
         Task<Cliente> CodigoExiste(Cliente Obj);
+        Task<Cliente> BuscarPeloLoginSenha(string login,string senha);
     }
 }

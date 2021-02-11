@@ -23,7 +23,7 @@ namespace Loja.Application.Services
             _validarCliente = validarCliente;
         }
 
-        public IList<Erro> Adicionar(ClienteViewModel clienteViewModel)
+        public IList<Erro> Adicionar(UsuarioViewModel clienteViewModel)
         {
             var cliente = _mapper.Map<Cliente>(clienteViewModel);
             _validarCliente.ValidarCadastro(cliente);
@@ -34,7 +34,7 @@ namespace Loja.Application.Services
             return _validarCliente.Erros;
         }
 
-        public IList<Erro> Atualizar(ClienteViewModel clienteViewModel)
+        public IList<Erro> Atualizar(UsuarioViewModel clienteViewModel)
         {
             var cliente = _mapper.Map<Cliente>(clienteViewModel);
             _validarCliente.ValidarEdicao(cliente);
@@ -45,17 +45,22 @@ namespace Loja.Application.Services
             return _validarCliente.Erros;
         }
 
-        public async Task<ClienteViewModel> BuscarPorId(int? id)
+        public async Task<UsuarioViewModel> BuscarPeloLoginSenha(string login, string senha)
         {
-            return _mapper.Map<ClienteViewModel>(await _clienteRepositorio.BuscarPorId(id));
+            return _mapper.Map<UsuarioViewModel>(await _clienteRepositorio.BuscarPeloLoginSenha(login,senha));
         }
 
-        public async Task<IEnumerable<ClienteViewModel>> BuscarTodos()
+        public async Task<UsuarioViewModel> BuscarPorId(int? id)
         {
-            return _mapper.Map<IEnumerable<ClienteViewModel>>(await _clienteRepositorio.BuscarTodos());
+            return _mapper.Map<UsuarioViewModel>(await _clienteRepositorio.BuscarPorId(id));
         }
 
-        public IList<Erro> Remover(ClienteViewModel clienteViewModel)
+        public async Task<IEnumerable<UsuarioViewModel>> BuscarTodos()
+        {
+            return _mapper.Map<IEnumerable<UsuarioViewModel>>(await _clienteRepositorio.BuscarTodos());
+        }
+
+        public IList<Erro> Remover(UsuarioViewModel clienteViewModel)
         {
             var cliente = _mapper.Map<Cliente>(clienteViewModel);
             _validarCliente.ValidarCadastro(cliente);

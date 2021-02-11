@@ -1,11 +1,12 @@
-﻿using Loja.Domain.Validations.Annotations;
+﻿using Loja.Domain.Enuns;
+using Loja.Domain.Validations.Annotations;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Loja.Application.ViewModels
 {
-    public class ClienteViewModel
+    public class UsuarioViewModel
     {
         public int ID { get; set; }
 
@@ -34,6 +35,10 @@ namespace Loja.Application.ViewModels
         [MaxLength(100)]
         [DisplayName("Senha")]
         public string Senha { get; set; }
+
+        [Required(ErrorMessage = "O campo tipo usuario é obrigatório")]
+        [DisplayName("Tipo de usuario")]
+        public ETipoUsuario TipoUsuario { get; set; }
 
     }
 }

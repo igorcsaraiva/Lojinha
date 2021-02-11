@@ -77,17 +77,11 @@ namespace Loja.Infra.Repository
                 return await pedidosPorCodigoOuCpfCliente.Where(p => p.DataPedido >= dataInicio && p.DataPedido <= dataFim).ToListAsync();
         }
 
-        public void Remover(Pedidos Obj)
-        {
-            _lojaContexto.Pedidos.Remove(Obj);
-            _lojaContexto.SaveChanges();
-        }
-
         private IQueryable<Pedidos> PedidosPorCodigoOuCpfCliente(string valor)
         {
             return _lojaContexto.Pedidos.Include(p => p.Cliente)
                    .Include(p => p.PedidoItems)
-                   .Where(p => p.Cliente.Cpf.Cpf == valor  || p.Codigo == valor);
+                   .Where(p => p.Cliente.Cpf.Cpf == valor || p.Codigo == valor);
         }
 
         private IQueryable<Pedidos> PedidosEntreDatas(DateTime? dataInicio, DateTime? dataFim)
@@ -96,5 +90,13 @@ namespace Loja.Infra.Repository
                    .Include(p => p.PedidoItems)
                    .Where(p => p.DataPedido >= dataInicio && p.DataPedido <= dataFim);
         }
+
+        public void Remover(Pedidos Obj)
+        {
+            _lojaContexto.Pedidos.Remove(Obj);
+            _lojaContexto.SaveChanges();
+        }
+
+     
     }
 }

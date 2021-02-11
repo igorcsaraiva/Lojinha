@@ -7,7 +7,7 @@
         {
             ID = id;
         }
-        public Entidade()
+        protected Entidade()
         {
         }
     }

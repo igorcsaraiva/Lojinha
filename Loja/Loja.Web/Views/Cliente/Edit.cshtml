@@ -1,4 +1,4 @@
-﻿@model Loja.Application.ViewModels.ClienteViewModel
+﻿@model Loja.Application.ViewModels.UsuarioViewModel
 @{
     ViewData["Title"] = "Edit";
 }
@@ -35,6 +35,14 @@
                 <label asp-for="DataNascimento" class="control-label"></label>
                 <input type="date" asp-for="DataNascimento" class="form-control" />
                 <span asp-validation-for="DataNascimento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TipoUsuario" class="control-label"></label>
+                <select asp-for="TipoUsuario" class="col-md-12 form-control">
+                    <option value="" disabled selected>Tipo de usuario</option>
+                    <option value="1">Cliente</option>
+                </select>
+                <span asp-validation-for="TipoUsuario" class="text-danger"></span>
             </div>
             <input type="hidden" asp-for="ID" />
             <div class="form-group">

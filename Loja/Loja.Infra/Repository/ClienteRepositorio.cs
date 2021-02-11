@@ -28,6 +28,12 @@ namespace Loja.Infra.Repository
             _lojaContexto.SaveChanges();
         }
 
+        public async Task<Cliente> BuscarPeloLoginSenha(string login, string senha)
+        {
+            return await _lojaContexto.Clientes.AsNoTrackingWithIdentityResolution()
+                .FirstOrDefaultAsync(c => c.Codigo.ToString() == login && c.Senha == senha);
+        }
+
         public async Task<Cliente> BuscarPorId(int? id)
         {
             return await _lojaContexto.Clientes.AsNoTrackingWithIdentityResolution().FirstOrDefaultAsync(c => c.ID == id);

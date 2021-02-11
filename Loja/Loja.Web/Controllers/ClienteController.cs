@@ -38,7 +38,7 @@ namespace Loja.Web.Controllers
         // POST: ClienteController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ClienteViewModel clienteViewModel)
+        public ActionResult Create(UsuarioViewModel clienteViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +80,7 @@ namespace Loja.Web.Controllers
         // POST: ClienteController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, ClienteViewModel clienteViewModel)
+        public ActionResult Edit(int id, UsuarioViewModel clienteViewModel)
         {
             if (ModelState.IsValid)
             {

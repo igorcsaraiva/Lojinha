@@ -1,3 +1,15 @@
+using Loja.API.Configurations;
+using Loja.API.Services;
+using Loja.Application.AssembleOrder;
+using Loja.Application.AutoMapper;
+using Loja.Application.Interfaces;
+using Loja.Application.Services;
+using Loja.Application.ViewModels;
+using Loja.Application.ViewModelValidation;
+using Loja.Domain.Interfaces;
+using Loja.Domain.Validations;
+using Loja.Infra.Context;
+using Loja.Infra.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +38,25 @@ namespace Loja.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddConfiguracaoToken(Configuration);
+            services.AddConfiguracaoSwagger();
+
+            services.AddDatabaseConfiguration(Configuration);
+            services.AddScoped<LojaContexto>();
+            services.AddScoped<ServicoToken>();
+            services.AddScoped<IClienteAppSevicos, ClienteAppService>();
+            services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
+            services.AddScoped<IProdutoAppServicos, ProdutoAppService>();
+            services.AddScoped<IProdutoRepositorio, ProdutoRepositorio>();
+            services.AddScoped<IPedidoAppServicos, PedidoAppService>();
+            services.AddScoped<IPedidosRepositorio, PedidoRepositorio>();
+            services.AddScoped<IValidarCliente, ServicoValidacaoCliente>();
+            services.AddScoped<IValidarProduto, ServicoValidacaoProduto>();
+            services.AddScoped<IValidarPedido, ServicoValidacaoPedido>();
+            services.AddScoped<IValidarView<PedidoViewModelCadastro>, ValidarPedidoViewModelCadastro>();
+            services.AddScoped<IMontarPedido, PedidoViewModelCadastrarParaPedidoDomain>();
+            services.AddAutoMapper(typeof(ClienteDomainParaUsuarioViewModel), typeof(UsuarioViewModelParaClienteDomain));
+            services.AddAutoMapper(typeof(ProdutoDomainParaProdutoViewModel), typeof(ProdutoViewModelParaProdutoDomain));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,6 +66,8 @@ namespace Loja.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwaggerSetup();
 
             app.UseHttpsRedirection();
 
